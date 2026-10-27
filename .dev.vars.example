@@ -1,0 +1,16 @@
+# Copy to .dev.vars for `npm run dev` against a real tenant.
+# For local development without SharePoint, use `npm run dev:mock` instead.
+TENANT_ID=00000000-0000-0000-0000-000000000000
+CLIENT_ID=00000000-0000-0000-0000-000000000000
+
+# Either a client secret...
+CLIENT_SECRET=
+
+# ...or a certificate (PKCS#8 PEM, newlines may be written as \n) and its thumbprint.
+# CERT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
+# CERT_THUMBPRINT=A1B2C3...
+
+# Optional overrides of wrangler.jsonc vars:
+# SITE_URL=https://yourtenant.sharepoint.com/sites/YourSite
+# LIBRARY=Documents
+# ROOT_PATH=Some/Folder

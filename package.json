@@ -1,0 +1,30 @@
+{
+  "name": "cf-worker-sharepoint",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only Cloudflare Worker API over a SharePoint folder: list, search, serve, download and zip files via Microsoft Graph, with a D1 mirror kept fresh by delta sync.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:mock": "wrangler dev --var MOCK_GRAPH:true --test-scheduled",
+    "deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply cf-worker-sharepoint --remote",
+    "db:migrate:local": "wrangler d1 migrations apply cf-worker-sharepoint --local",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^1.6.3",
+    "client-zip": "^2.5.1",
+    "hono": "^4.13.14",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.4.8",
+    "@cloudflare/workers-types": "^5.20261027.1",
+    "typescript": "^5.9.0",
+    "vitest": "~4.1.0",
+    "wrangler": "^4.153.0"
+  }
+}

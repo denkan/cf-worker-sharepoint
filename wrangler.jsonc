@@ -1,0 +1,47 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cf-worker-sharepoint",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+
+  // Delta sync runs on this schedule. Every 2 minutes is a reasonable default;
+  // when nothing changed in SharePoint a run is a single cheap Graph call.
+  "triggers": { "crons": ["*/2 * * * *"] },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cf-worker-sharepoint",
+      // Replace with the id printed by `npx wrangler d1 create cf-worker-sharepoint`
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Zip streaming computes a CRC32 over every byte, which is CPU work.
+  // On the Workers Paid plan you can raise the CPU limit (max 300000 ms):
+  // "limits": { "cpu_ms": 300000 },
+
+  "vars": {
+    // Full URL of the SharePoint site, e.g. https://contoso.sharepoint.com/sites/Projects
+    "SITE_URL": "https://contoso.sharepoint.com/sites/Projects",
+    // Document library: its display name ("Documents", "Dokument") or URL segment
+    // ("Shared Documents"). Empty = the site's default library.
+    "LIBRARY": "",
+    // Folder inside the library that the API is locked to. Empty = whole library.
+    "ROOT_PATH": "Clients/Acme",
+
+    "ZIP_MAX_FILES": "500",
+    "ZIP_MAX_BYTES": "2147483648",
+    "SYNC_TIME_BUDGET_MS": "60000",
+    // Comma-separated list of allowed CORS origins, or "*". Empty = CORS disabled.
+    "CORS_ORIGINS": ""
+  }
+
+  // Secrets (set with `npx wrangler secret put <NAME>`):
+  //   TENANT_ID, CLIENT_ID
+  //   and either CLIENT_SECRET
+  //   or CERT_PRIVATE_KEY (PKCS#8 PEM) + CERT_THUMBPRINT (hex, SHA-1 or SHA-256)
+}
