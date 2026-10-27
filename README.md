@@ -6,6 +6,12 @@ Listing and search never call SharePoint. They are answered from a D1 mirror of 
 
 A small proof-of-concept browser UI is served at `/`. It's meant to be replaced; the API is the product.
 
+| Browse a folder and preview files | Paste any SharePoint link to jump to it | Search, select and download as zip |
+|---|---|---|
+| ![Folder view with an image preview](docs/screenshots/browse-preview.png) | ![A pasted SharePoint URL resolved to a video, playing with seeking](docs/screenshots/pasted-link-video.png) | ![Search results for "rapport" with three files selected for a zip](docs/screenshots/search-zip.png) |
+
+<sub>Screenshots use the built-in mock library (`npm run dev:mock`).</sub>
+
 ```
              ┌──────────────── Cloudflare Worker ────────────────┐
   client ──▶ │  /api/items, /api/search ──▶ D1 (mirror + FTS)    │
